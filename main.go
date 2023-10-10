@@ -7,7 +7,7 @@ import(
 
 func main(){
 	for{
-		fmt.Println("Hello")
+		fmt.Println("Hello gitaction")
 		time.Sleep(10*time.Second)
 	}
 }
