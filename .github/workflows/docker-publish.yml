@@ -21,11 +21,16 @@ jobs:
       - name: Build
         run: go build -v ./...
 
+      - name: Login To DockerHub
+        uses: docker/login-acion@v1
+        with:
+          username: mh3769
+          password: dckr_pat_AGX9Z29w8ZR26XkoQFxXgeB9G_E
       - name: build and release to DockerHub
         env:
           NAME: mh3769
           REPO: gitaction
         run: |
-          docker build -t $REPO
-          docker tag $REPO .:latest $NAME/$REPO:latest
+          docker build -t $REPO .
+          docker tag $REPO:latest $NAME/$REPO:latest
           docker push $NAME/$REPO:latest
