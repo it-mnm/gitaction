@@ -1,0 +1,31 @@
+name: GitAction
+
+#어떤 이벤트가 발생했을 때
+#cron이라고 하면 주기적인 작업
+on:
+  push:
+    branches: ["main"] #main 브랜치에 push 이벤트가 발생하면
+  pull_request:
+    branches: ["main"] #main 브랜치에 pr 이벤트가 발생하면
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set Up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.15
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: build and release to DockerHub
+        env:
+          NAME: mh3769
+          REPO: gitaction
+        run: |
+          docker build -t $REPO
+          docker tag $REPO:latest $NAME/$REPO:latest
+          docker push $NAME/$REPO:latest
